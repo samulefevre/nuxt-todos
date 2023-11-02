@@ -1,5 +1,7 @@
 # Nuxt Todo List with supabase in devcontainer
 
+https://github.com/samulefevre/nuxt-todos/assets/17186421/56d03f3f-66d2-423b-8910-bb90c1cb4aef
+
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Setup
