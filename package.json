@@ -15,7 +15,7 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "drizzle-kit": "^0.19.13",
-    "nuxt": "^3.8.0",
+    "nuxt": "^3.8.1",
     "vue": "^3.3.7",
     "vue-router": "^4.2.5"
   },
