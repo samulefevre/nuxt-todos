@@ -2,6 +2,15 @@
 
 https://github.com/samulefevre/nuxt-todos/assets/17186421/56d03f3f-66d2-423b-8910-bb90c1cb4aef
 
+## Stack
+
+- Frontend:
+  - [Nuxt 3](https://nuxt.com/) - The Vue Framework for Web Architects
+  - [Nuxt UI](https://ui.nuxt.com/) for styling and layout
+- Backend:
+  - [Supabase](https://supabase.com/) Supabase | The Open Source Firebase Alternative
+  - [Drizzle ORM](https://orm.drizzle.team/) DrizzleORM - next gen TypeScript ORM
+
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Setup
