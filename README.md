@@ -31,6 +31,10 @@ yarn install
 bun install
 ```
 
+Create a [GitHub Oauth Application](https://github.com/settings/applications/new) with:
+- Homepage url: `http://localhost:3000`
+- Callback url: `http://localhost:54321/auth/v1/callback`
+
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
