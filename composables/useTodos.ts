@@ -5,7 +5,9 @@ import type { DB, Tables } from '~/types/supabase'
 export const useTodos = () => {
     const newTitleInput = ref<any>(null)
     const client = useSupabaseClient<DB>()
+    console.log('useTodos', client)
     const user = useSupabaseUser()
+    console.log('userSetup', user)
 
     const todos = ref<Tables<'todos'>[]>([])
 
@@ -55,7 +57,15 @@ export const useTodos = () => {
     }
 
     const getTodos = async () => {
-        const { data, error } = await client.from('todos').select().order('created_at', { ascending: false })
+        console.log('user', user)
+        if (!user) return
+
+        console.log('getTodos')
+
+        const { data, error } = await client.from('todos').select().eq('user_id', user.id).order('created_at', { ascending: false })
+
+        console.log('data', data)
+        console.log('error', error)
 
         if (error) {
             toast.add({ title: "can't get todos", color: 'red' })
