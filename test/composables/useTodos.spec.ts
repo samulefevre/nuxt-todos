@@ -2,7 +2,7 @@ import { useTodos } from '@/composables/useTodos'
 
 import { describe, expect, test, beforeEach, beforeAll, afterAll, afterEach, vi } from 'vitest';
 
-import { setup, mockNuxtImport } from 'nuxt-vitest'
+import { mockNuxtImport } from 'nuxt-vitest/utils'
 
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
@@ -29,7 +29,7 @@ const mockClient = {
 }
 
 /* mockNuxtImport('useSupabaseClient', () => {
-  return () => mockClient
+  retur  () => mockClient
 }) */
 
 mockNuxtImport('useSupabaseUser', () => {
