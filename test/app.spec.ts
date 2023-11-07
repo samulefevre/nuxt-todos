@@ -1,29 +1,12 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, test } from 'vitest';
+import { UNotifications } from '#components';
 
-describe('my test', () => {
-    // ... test with Nuxt environment!
-    it('works', () => {
-        expect(useAppConfig()).toMatchInlineSnapshot(`{
-            ui: {
-                primary: 'emerald',
-                container: {
-                    constrained: 'max-w-2xl'
-                },
-                card: {
-                    header: {
-                        base: 'flex flex-wrap items-center justify-between'
-                    },
-                    body: {
-                        base: 'space-y-4'
-                    }
-                },
-                dropdown: {
-                    width: 'w-full',
-                    popper: {
-                        strategy: 'absolute'
-                    }
-                }
-            }
-        }`);
-    });
+import { shallowMount } from '@vue/test-utils';
+import App from '@/app.vue';
+
+describe('test app.vue', () => {
+    test('app.vue should contain UNotifications', () => {
+        const wrapper = shallowMount(App);
+        expect(wrapper.findComponent(UNotifications).exists()).toBe(true); // got error : defineComponent is not a function
+    })
 });
