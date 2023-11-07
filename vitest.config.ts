@@ -4,7 +4,7 @@ export default defineVitestConfig({
     // any custom vitest config you require
     // got error : TypeError: hasInjectionContext is not a function
     test: {
-        environment: 'happy-dom',
+        environment: 'nuxt',
         /*  deps: {
              optimizer: {
                  web: {

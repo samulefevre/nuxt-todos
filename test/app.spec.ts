@@ -3,8 +3,7 @@ import { VueWrapper, shallowMount } from '@vue/test-utils';
 
 import App from '@/app.vue';
 
-import NuxtPage from '#imports/NuxtPage.vue';
-import { UNotifications } from '#components';
+import { UNotifications, NuxtPage } from '#components';
 
 describe('test app.vue', () => {
     let wrapper: VueWrapper;
@@ -14,10 +13,10 @@ describe('test app.vue', () => {
     })
 
     test('app.vue should contain NuxtPage', () => {
-        expect(wrapper.findComponent(NuxtPage).exists()).toBe(true); // got error : defineComponent is not a function
+        expect(wrapper.findComponent(NuxtPage).exists()).toBe(true);
     })
 
     test('app.vue should contain UNotifications', () => {
-        expect(wrapper.findComponent(UNotifications).exists()).toBe(true); // got error : defineComponent is not a function
+        expect(wrapper.findComponent(UNotifications).exists()).toBe(true);
     })
 });
