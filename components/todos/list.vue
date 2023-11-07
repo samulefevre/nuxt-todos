@@ -57,7 +57,8 @@ const items = [[{
 
             </UForm>
             <ul class="divide-y divide-gray-200 dark:divide-gray-800 mt-8">
-                <li v-for="todo in todos" @key="todo.id" class="flex flex-col divide-y divide-gray-200">
+                <li v-if="todos.length > 0" v-for="todo in todos" @key="todo.id"
+                    class="flex flex-col divide-y divide-gray-200">
                     <div class="flex items-center justify-between gap-4 py-2">
                         <div class="font-medium" :class="[todo.completed ? 'line-through text-gray-500' : '']">{{ todo.title
                         }}</div>
@@ -71,6 +72,7 @@ const items = [[{
                         </div>
                     </div>
                 </li>
+                <p v-else>No todos found</p>
             </ul>
         </div>
     </UCard>
