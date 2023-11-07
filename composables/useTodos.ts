@@ -5,9 +5,8 @@ import type { DB, Tables } from '~/types/supabase'
 export const useTodos = () => {
     const newTitleInput = ref<any>(null)
     const client = useSupabaseClient<DB>()
-    console.log('useTodos', client)
+
     const user = useSupabaseUser()
-    console.log('userSetup', user)
 
     const todos = ref<Tables<'todos'>[]>([])
 
@@ -57,12 +56,11 @@ export const useTodos = () => {
     }
 
     const getTodos = async () => {
-        console.log('user', user)
-        if (!user) return
+        if (!user.value) return
 
-        console.log('getTodos')
+        console.log('getTodosWithUserId:', user.value.id)
 
-        const { data, error } = await client.from('todos').select().eq('user_id', user.id).order('created_at', { ascending: false })
+        const { data, error } = await client.from('todos').select().eq('user_id', user.value.id).order('created_at', { ascending: false })
 
         console.log('data', data)
         console.log('error', error)
