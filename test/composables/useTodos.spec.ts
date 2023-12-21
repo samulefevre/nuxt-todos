@@ -1,54 +1,76 @@
 import { useTodos } from '@/composables/useTodos'
-
-import { describe, expect, test, vi } from 'vitest';
-
+import { describe, expect, test, vi, beforeAll } from 'vitest';
 import { mockNuxtImport, registerEndpoint } from '@nuxt/test-utils/runtime'
 
-import { ref } from 'vue'
+import { randomUUID } from 'crypto'
 
 describe('test useTodos', () => {
+  mockNuxtImport('useSupabaseUser', () => {
+    return () => {
+      return { value: 'mocked storage' }
+    }
+  })
 
-  //let fakeUserId = 'da877065-a8c6-4015-87f7-f4f2dc98e665'
-  // let mockUser = ref({ id: fakeUserId, name: 'John Doe', email: 'jdoe@gmail.com' })
+  const fakeUserId = randomUUID()
 
   const fakeTodos = [
     {
-      "id": 26,
-      "user_id": 'fakeUserId',
-      "title": "do task 6",
+      "id": randomUUID(),
+      "user_id": fakeUserId,
+      "title": "do task 1",
       "completed": false,
       "created_at": "2023-11-02T07:53:16.122271"
     },
     {
-      "id": 25,
-      "user_id": 'fakeUserId',
-      "title": "do task 5",
+      "id": randomUUID(),
+      "user_id": fakeUserId,
+      "title": "do task 2",
       "completed": false,
       "created_at": "2023-11-02T07:40:40.831005"
     },
     {
-      "id": 24,
-      "user_id": 'fakeUserId',
-      "title": "do task 4",
+      "id": randomUUID(),
+      "user_id": fakeUserId,
+      "title": "do task 3",
       "completed": false,
       "created_at": "2023-11-02T07:34:53.072185"
     },
     {
-      "id": 23,
-      "user_id": 'fakeUserId',
-      "title": "do task 3",
+      "id": randomUUID(),
+      "user_id": fakeUserId,
+      "title": "do task 4",
       "completed": true,
       "created_at": "2023-11-02T07:34:45.222061"
     }
   ]
 
-  /*  mockNuxtImport('useSupabaseUser', () => {
-     return ref({ id: 'fakeUserId', name: 'John Doe', email: 'jdoe@gmail.com' })
-   }) */
+  let fakeTodosWithNewTodo = Array.from(fakeTodos)
+  fakeTodosWithNewTodo.push({
+    "id": randomUUID(),
+    "user_id": fakeUserId,
+    "title": "do task 5",
+    "completed": true,
+    "created_at": "2023-11-02T07:34:45.222061"
+  })
 
   registerEndpoint("/api/todos", {
     method: "GET",
     handler: () => (fakeTodos)
+  })
+
+  registerEndpoint("/api/todos", {
+    method: "POST",
+    handler: () => (fakeTodosWithNewTodo)
+  })
+
+  registerEndpoint(`/api/todos/${fakeTodos[3].id}`, {
+    method: "DELETE",
+    handler: () => (fakeTodos[3])
+  })
+
+  registerEndpoint(`/api/todos/${fakeTodos[3].id}`, {
+    method: "PATCH",
+    handler: () => (fakeTodos[3])
   })
 
   test('get List of todos', async () => {
@@ -56,6 +78,57 @@ describe('test useTodos', () => {
 
     await getTodos();
 
-    expect(todos.value.length).toBeGreaterThan(0);
+    expect(todos.value.length).toBe(4);
+  })
+
+  test('create a todo is working when title defined', async () => {
+    const { todos, addTodo, state } = useTodos();
+    state.title = 'task' as any
+
+    await addTodo({
+      data: {
+        title: 'task'
+      }
+    } as any);
+
+    expect(todos.value.length).toBe(1);
+  })
+
+  test('create a todo is not working when title is undefined', async () => {
+    const { todos, addTodo, state } = useTodos();
+
+    await addTodo({
+      data: {
+        title: undefined
+      }
+    } as any);
+
+    expect(todos.value.length).toBe(0);
+  })
+
+  test('delete a todo is working', async () => {
+    const { todos, deleteTodo } = useTodos();
+
+    todos.value = fakeTodos
+
+    expect(todos.value.length).toBe(4);
+
+    await deleteTodo(fakeTodos[3]);
+
+    expect(todos.value.length).toBe(3);
+  })
+
+  test('toggle a todo is working', async () => {
+    const { todos, toggleTodo } = useTodos();
+
+    todos.value = fakeTodos
+
+    expect(todos.value.length).toBe(4);
+    expect(todos.value[3].completed).toBe(true);
+
+    await toggleTodo(fakeTodos[3]);
+
+    expect(todos.value.length).toBe(4);
+    expect(todos.value[3].completed).toBe(false);
   })
 })

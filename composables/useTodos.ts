@@ -6,8 +6,6 @@ export const useTodos = () => {
     const newTitleInput = ref<any>(null)
     const client = useSupabaseClient<DB>()
 
-    const user = useSupabaseUser()
-
     const todos = ref<Tables<'todos'>[]>([])
 
     const schema = z.object({
@@ -27,23 +25,23 @@ export const useTodos = () => {
     const toast = useToast()
 
     async function addTodo(event: FormSubmitEvent<Schema>) {
-        if (!user.value || !state.title) return
+        if (!state.title) return
 
-        const { data: todo, error } = await client.from('todos').insert([
-            {
-                title: state.title,
-                user_id: user.value.id
-            }
-        ]).select().single()
+        const { data: todo, error } = await useFetch<Tables<'todos'>>('/api/todos', {
+            method: 'POST',
+            body: JSON.stringify({
+                title: state.title
+            })
+        })
 
-        if (error) {
+        if (error.value) {
             toast.add({ title: "can't add todo", color: 'red' })
             return
         }
 
-        if (todo) {
-            todos.value = [todo, ...todos.value]
-            toast.add({ title: `Todo "${todo.title}" created.` })
+        if (todo.value) {
+            todos.value = [todo.value, ...todos.value]
+            toast.add({ title: `Todo "${todo.value.title}" created.` })
             state.title = undefined
             nextTick(() => {
                 newTitleInput.value?.input?.focus()
@@ -68,20 +66,32 @@ export const useTodos = () => {
     const toggleTodo = async (todo: Tables<'todos'>) => {
         todo.completed = !todo.completed
 
-        await client.from('todos').update({
-            completed: todo.completed
-        }).eq('id', todo.id)
+        const { error } = await useFetch<Tables<'todos'>>(`/api/todos/${todo.id}`, {
+            method: 'PATCH',
+            body: {
+                completed: todo.completed
+            }
+        })
+
+        if (error.value) {
+            todo.completed = !todo.completed
+            toast.add({ title: "can't update todo", color: 'red' })
+            return
+        }
+
     }
 
     const deleteTodo = async (todo: Tables<'todos'>) => {
-        const { data, error } = await client.from('todos').delete().eq('id', todo.id).select()
+        const { data, error } = await useFetch(`/api/todos/${todo.id}`, {
+            method: 'DELETE'
+        })
 
-        if (error) {
+        if (error.value) {
             toast.add({ title: "can't delete todo", color: 'red' })
             return
         }
 
-        if (data && todos.value) {
+        if (data.value) {
             todos.value = todos.value.filter(t => t.id !== todo.id)
             toast.add({ title: `Todo "${todo.title}" deleted.` })
         }

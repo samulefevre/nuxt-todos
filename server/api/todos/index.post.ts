@@ -6,6 +6,8 @@ export default defineEventHandler(async (event) => {
     const client = await serverSupabaseClient<DB>(event)
     const user = await serverSupabaseUser(event)
 
+    const { title } = await readBody(event)
+
     if (!user) {
         throw createError({
             statusCode: 401,
@@ -13,14 +15,19 @@ export default defineEventHandler(async (event) => {
         })
     }
 
-    const { data, error } = await client.from('todos').select().eq('user_id', user.id).order('created_at', { ascending: false })
+    const { data: todo, error } = await client.from('todos').insert([
+        {
+            title,
+            user_id: user.id
+        }
+    ]).select().single()
 
     if (error) {
         throw createError({
             statusCode: 500,
-            message: "can't get todos"
+            message: "can't add todo"
         })
     }
 
-    return data
+    return todo
 })

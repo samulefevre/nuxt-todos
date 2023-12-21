@@ -9,9 +9,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "types": "pnpx supabase gen types typescript --local --schema public > types/supabase.g.ts",
-    "drizzlepush": "pnpx drizzle-kit push:pg",
+    "drizzlepush": "pnpm drizzle-kit push:pg",
     "schema": "pnpm drizzlepush && pnpm types",
-    "test": "pnpm vitest run",
+    "test": "pnpm vitest",
     "test:ui": "pnpm vitest --ui --coverage"
   },
   "devDependencies": {

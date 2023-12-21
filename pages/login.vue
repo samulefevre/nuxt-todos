@@ -4,8 +4,6 @@ const supabase = useSupabaseClient()
 
 const { baseUrl } = useRuntimeConfig().public
 
-console.log(baseUrl, 'baseUrl')
-
 let redirectTo = `${baseUrl}/confirm`;
 
 const login = async () => {
