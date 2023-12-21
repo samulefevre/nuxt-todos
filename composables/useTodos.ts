@@ -53,16 +53,16 @@ export const useTodos = () => {
     }
 
     const getTodos = async () => {
-        if (!user.value) return
+        const { data, error } = await useFetch<Tables<'todos'>[]>(`/api/todos`)
 
-        const { data, error } = await client.from('todos').select().eq('user_id', user.value.id).order('created_at', { ascending: false })
-
-        if (error) {
+        if (error.value) {
             toast.add({ title: "can't get todos", color: 'red' })
             return
         }
 
-        todos.value = data
+        if (data.value) {
+            todos.value = data.value
+        }
     }
 
     const toggleTodo = async (todo: Tables<'todos'>) => {

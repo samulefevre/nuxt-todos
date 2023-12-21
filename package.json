@@ -11,7 +11,7 @@
     "types": "pnpx supabase gen types typescript --local --schema public > types/supabase.g.ts",
     "drizzlepush": "pnpx drizzle-kit push:pg",
     "schema": "pnpm drizzlepush && pnpm types",
-    "test": "pnpm vitest run --coverage",
+    "test": "pnpm vitest run",
     "test:ui": "pnpm vitest --ui --coverage"
   },
   "devDependencies": {
