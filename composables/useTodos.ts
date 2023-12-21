@@ -29,24 +29,28 @@ export const useTodos = () => {
 
         const { data: todo, error } = await useFetch<Tables<'todos'>>('/api/todos', {
             method: 'POST',
-            body: JSON.stringify({
+            body: {
                 title: state.title
-            })
+            }
         })
 
+        console.log('todo.value', todo.value)
+        console.log('error.value', error.value)
+
         if (error.value) {
+            console.log("can't add todo")
             toast.add({ title: "can't add todo", color: 'red' })
-            return
         }
 
-        if (todo.value) {
-            todos.value = [todo.value, ...todos.value]
-            toast.add({ title: `Todo "${todo.value.title}" created.` })
-            state.title = undefined
-            nextTick(() => {
-                newTitleInput.value?.input?.focus()
-            })
-        }
+        if (!todo.value) return
+
+        todos.value = [todo.value, ...todos.value]
+        toast.add({ title: `Todo "${todo.value.title}" created.` })
+        state.title = undefined
+        /* nextTick(() => {
+            newTitleInput.value?.input?.focus()
+        }) */
+
 
     }
 
@@ -106,7 +110,8 @@ export const useTodos = () => {
         toggleTodo,
         loading,
         form,
-        deleteTodo
+        deleteTodo,
+        toast
     }
 
 }

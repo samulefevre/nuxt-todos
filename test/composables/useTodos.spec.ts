@@ -58,10 +58,10 @@ describe('test useTodos', () => {
     handler: () => (fakeTodos)
   })
 
-  registerEndpoint("/api/todos", {
+  /* registerEndpoint("/api/todos", {
     method: "POST",
     handler: () => (fakeTodosWithNewTodo)
-  })
+  }) */
 
   registerEndpoint(`/api/todos/${fakeTodos[3].id}`, {
     method: "DELETE",
@@ -82,6 +82,11 @@ describe('test useTodos', () => {
   })
 
   test('create a todo is working when title defined', async () => {
+    registerEndpoint("/api/todos", {
+      method: "POST",
+      handler: () => (fakeTodosWithNewTodo)
+    })
+
     const { todos, addTodo, state } = useTodos();
     state.title = 'task' as any
 
@@ -95,7 +100,12 @@ describe('test useTodos', () => {
   })
 
   test('create a todo is not working when title is undefined', async () => {
-    const { todos, addTodo, state } = useTodos();
+    registerEndpoint("/api/todos", {
+      method: "POST",
+      handler: () => (fakeTodosWithNewTodo)
+    })
+
+    const { todos, addTodo } = useTodos();
 
     await addTodo({
       data: {
