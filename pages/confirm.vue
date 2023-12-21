@@ -7,8 +7,6 @@
 </template>
 
 <script lang="ts" setup>
-console.log('conf')
-
 const user = useSupabaseUser()
 watch(user, () => {
   if (user.value) {

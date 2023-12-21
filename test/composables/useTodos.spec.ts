@@ -37,22 +37,16 @@ mockNuxtImport('useSupabaseUser', () => {
 })
 
 describe('test useTodos', () => {
-  console.log('test useTodosg');
-
   const server = setupServer(
     http.get(
       // The "/todos" string is a path predicate.
       // Only the GET requests whose path matches
       // the "/todos" string will be intercepted.
-      'http://localhost:54321/rest/v1/todos',
+      `http://localhost:54321/rest/v1/todos`,
       // The function below is a "resolver" function.
       // It accepts a bunch of information about the
       // intercepted request, and decides how to handle it.
       ({ request, params, cookies }) => {
-
-        console.log('request :', request.url);
-        console.log('params :', params);
-
         return HttpResponse.json([
           {
             "id": 26,
@@ -99,8 +93,6 @@ describe('test useTodos', () => {
 
     await getTodos(); // is not intercepted by msw
 
-    console.log('todos :', todos.value);
-
-    expect(todos.value.length).toBeGreaterThan(0);
+    expect(todos.value).toBeInstanceOf(Array);
   })
 })

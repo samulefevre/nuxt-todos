@@ -7,7 +7,6 @@ const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 
 const logout = async () => {
-    console.log('LOGOUT')
     await supabase.auth.signOut()
     await navigateTo('/login')
 }
@@ -18,7 +17,7 @@ const items = [[{
     click: logout
 }]]
 
-
+// console.log('env', process.env)
 </script>
 
 <template>

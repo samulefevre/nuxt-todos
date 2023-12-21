@@ -1,19 +1,27 @@
 <script setup lang="ts">
+const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 
 const { baseUrl } = useRuntimeConfig().public
 
+console.log(baseUrl, 'baseUrl')
+
 let redirectTo = `${baseUrl}/confirm`;
 
 const login = async () => {
-    console.log('LOGIN')
     const { error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: { redirectTo },
     })
 
-    if (error) console.log(error)
+    if (error) console.error(error)
 }
+
+watchEffect(() => {
+    if (user.value) {
+        navigateTo('/')
+    }
+})
 </script>
 
 <template>

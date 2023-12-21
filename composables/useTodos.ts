@@ -27,9 +27,6 @@ export const useTodos = () => {
     const toast = useToast()
 
     async function addTodo(event: FormSubmitEvent<Schema>) {
-        // Do something with data
-        console.log(event.data)
-
         if (!user.value || !state.title) return
 
         const { data: todo, error } = await client.from('todos').insert([
@@ -45,7 +42,7 @@ export const useTodos = () => {
         }
 
         if (todo) {
-            todos.value.push(todo)
+            todos.value = [todo, ...todos.value]
             toast.add({ title: `Todo "${todo.title}" created.` })
             state.title = undefined
             nextTick(() => {
@@ -58,12 +55,7 @@ export const useTodos = () => {
     const getTodos = async () => {
         if (!user.value) return
 
-        console.log('getTodosWithUserId:', user.value.id)
-
         const { data, error } = await client.from('todos').select().eq('user_id', user.value.id).order('created_at', { ascending: false })
-
-        console.log('data', data)
-        console.log('error', error)
 
         if (error) {
             toast.add({ title: "can't get todos", color: 'red' })
@@ -89,7 +81,7 @@ export const useTodos = () => {
             return
         }
 
-        if (data) {
+        if (data && todos.value) {
             todos.value = todos.value.filter(t => t.id !== todo.id)
             toast.add({ title: `Todo "${todo.title}" deleted.` })
         }
