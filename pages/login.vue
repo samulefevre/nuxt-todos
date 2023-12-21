@@ -22,7 +22,7 @@ const login = async () => {
             <UCard>
                 <div>
                     <h1>Todo List</h1>
-                    <UButton @click="login" class="my-4" icon="i-simple-icons-github">Login with Github</UButton>
+                    <UButton @click="login" class="my-4" icon="i-mdi-github" dynamic>Login with Github</UButton>
                 </div>
             </UCard>
         </UContainer>

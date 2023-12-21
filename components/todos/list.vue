@@ -49,8 +49,8 @@ const items = [[{
 
                     </UFormGroup>
                     <div class="flex-none items-center h-8 mt-6">
-                        <UButton type="submit" icon="i-heroicons-plus-20-solid" :loading="loading"
-                            :disabled="state.title === undefined || form.errors.length > 0" />
+                        <UButton type="submit" icon="i-heroicons-plus-20-solid" variant="solid" square color="primary"
+                            :loading="loading" :disabled="state.title === undefined || form.errors.length > 0" />
                     </div>
                 </div>
 

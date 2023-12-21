@@ -1,5 +1,8 @@
 export default defineAppConfig({
     ui: {
+        icons: {
+            dynamic: true
+        },
         primary: 'emerald',
         container: {
             constrained: 'max-w-2xl'
