@@ -1,8 +1,16 @@
 import { describe, expect, test, vi, beforeAll } from 'vitest';
-import { $fetch, setup } from '@nuxt/test-utils/e2e'
 import { registerEndpoint } from '@nuxt/test-utils/runtime'
+// import { registerEndpoint } from '@nuxt/test-utils/runtime'
 
 import { randomUUID } from 'crypto'
+
+import { fileURLToPath } from 'node:url'
+
+console.log(import.meta.url)
+
+/* await setup({
+    rootDir: fileURLToPath(new URL('', import.meta.url)),
+}) */
 
 const fakeUserId = randomUUID()
 
@@ -50,14 +58,20 @@ describe('test API', async () => {
     }) */
 
 
-    /* test('return list of todos when fetching api/todos', async () => {
+    test('return list of todos when fetching api/todos', async () => {
+        registerEndpoint("/api/todos", {
+            method: "GET",
+            handler: () => (fakeTodos)
+        })
+
         const res = await $fetch('/api/todos')
-        const { body } = res
+        // const { body } = res
 
-        console.log('todosFetch', body)
+        // console.log('todosFetch', res)
 
-        expect(body).toMatchObject(fakeTodos)
-    }) */
+        //expect(res).toMatchObject(fakeTodos)
+        expect(res).toMatchObject(fakeTodos)
+    })
 
     test('dummy test', () => {
         expect(true).toBe(true)

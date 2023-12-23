@@ -8,9 +8,6 @@ export default defineVitestConfig({
     // configFile: 'nuxt.config.ts',
     test: {
         environment: 'nuxt',
-        // add env file to test environment
-
-
         environmentOptions: {
             nuxt: {
                 overrides: {
