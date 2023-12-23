@@ -1,16 +1,10 @@
 import { useTodos } from '@/composables/useTodos'
-import { describe, expect, test, vi, beforeAll } from 'vitest';
-import { mockNuxtImport, registerEndpoint } from '@nuxt/test-utils/runtime'
+import { describe, expect, test } from 'vitest';
+import { registerEndpoint } from '@nuxt/test-utils/runtime'
 
 import { randomUUID } from 'crypto'
 
 describe('test useTodos', () => {
-  mockNuxtImport('useSupabaseUser', () => {
-    return () => {
-      return { value: 'mocked storage' }
-    }
-  })
-
   const fakeUserId = randomUUID()
 
   const fakeTodos = [
@@ -39,7 +33,7 @@ describe('test useTodos', () => {
       "id": randomUUID(),
       "user_id": fakeUserId,
       "title": "do task 4",
-      "completed": true,
+      "completed": false,
       "created_at": "2023-11-02T07:34:45.222061"
     }
   ]
@@ -134,11 +128,11 @@ describe('test useTodos', () => {
     todos.value = fakeTodos
 
     expect(todos.value.length).toBe(4);
-    expect(todos.value[3].completed).toBe(true);
+    expect(todos.value[3].completed).toBe(false);
 
     await toggleTodo(fakeTodos[3]);
 
     expect(todos.value.length).toBe(4);
-    expect(todos.value[3].completed).toBe(false);
+    expect(todos.value[3].completed).toBe(true);
   })
 })

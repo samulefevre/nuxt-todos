@@ -1,10 +1,9 @@
 import { z } from 'zod'
 import type { FormSubmitEvent, FormError } from '#ui/types'
-import type { DB, Tables } from '~/types/supabase'
+import type { Tables } from '~/types/supabase'
 
 export const useTodos = () => {
-    const newTitleInput = ref<any>(null)
-    const client = useSupabaseClient<DB>()
+    // const newTitleInput = ref<any>(null)
 
     const todos = ref<Tables<'todos'>[]>([])
 
@@ -24,7 +23,7 @@ export const useTodos = () => {
 
     const toast = useToast()
 
-    async function addTodo(event: FormSubmitEvent<Schema>) {
+    const addTodo = async (event: FormSubmitEvent<Schema>) => {
         if (!state.title) return
 
         const { data: todo, error } = await useFetch<Tables<'todos'>>('/api/todos', {
