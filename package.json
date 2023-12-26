@@ -23,11 +23,11 @@
     "drizzle-kit": "^0.20.7",
     "happy-dom": "^12.10.3",
     "msw": "^2.0.11",
-    "nuxt": "^3.8.2",
+    "nuxt": "^3.9.0",
     "playwright-core": "^1.40.1",
     "vitest": "^1.1.0",
-    "vue": "^3.3.12",
-    "vue-router": "^4.2.5"
+    "vue": "^3.4.0-rc.1",
+    "vue-router": "latest"
   },
   "dependencies": {
     "@nuxt/ui": "^2.11.1",
